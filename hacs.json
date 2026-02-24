@@ -1,5 +1,6 @@
 {
   "name": "Stock Portfolio Card",
+  "type": "plugin",
   "render_readme": true,
   "filename": "stock-portfolio-card.js"
 }
