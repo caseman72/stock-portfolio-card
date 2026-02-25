@@ -207,7 +207,7 @@ class StockPortfolioTable extends LitElement {
     return html`
       <tr class="col-header-row">
         <td class="left col-header">Stock</td>
-        ${L >= LAYOUT_MD ? html`<td class="right col-header">Price</td>` : ""}
+        <td class="right col-header">Price</td>
         ${L >= LAYOUT_MD ? html`<td class="right col-header">Change</td>` : ""}
         ${L >= LAYOUT_LG ? html`<td class="right col-header">Qty</td>` : ""}
         ${L >= LAYOUT_MD ? html`<td class="right col-header">Basis</td>` : ""}
@@ -224,7 +224,7 @@ class StockPortfolioTable extends LitElement {
     return html`
       <tr>
         <td class="left ticker">${s.ticker}</td>
-        ${L >= LAYOUT_MD ? html`<td class="right">$${this._fmt(s.price)}</td>` : ""}
+        <td class="right">$${this._fmt(s.price)}</td>
         ${L >= LAYOUT_MD
           ? html`<td class="right ${s.change >= 0 ? "gain" : "loss"}">
               ${s.change >= 0 ? "+$" : "-$"}${this._fmt(Math.abs(s.change))}
@@ -240,7 +240,7 @@ class StockPortfolioTable extends LitElement {
   }
 
   _colCount() {
-    return this._layout >= LAYOUT_LG ? 8 : this._layout === LAYOUT_MD ? 6 : 3;
+    return this._layout >= LAYOUT_LG ? 8 : this._layout === LAYOUT_MD ? 6 : 4;
   }
 
   render() {
