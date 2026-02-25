@@ -220,7 +220,7 @@ class StockPortfolioTable extends LitElement {
   }
 
   _colCount() {
-    return this._layout === LAYOUT_LG ? 8 : this._layout === LAYOUT_MD ? 6 : 3;
+    return this._layout >= LAYOUT_LG ? 8 : this._layout === LAYOUT_MD ? 6 : 3;
   }
 
   render() {
