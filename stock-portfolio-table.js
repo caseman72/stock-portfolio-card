@@ -30,13 +30,13 @@ class StockPortfolioTable extends LitElement {
       const layout = w >= 900 ? LAYOUT_XL : w >= 600 ? LAYOUT_LG : w >= 300 ? LAYOUT_MD : LAYOUT_SM;
       if (layout !== this._layout) {
         this._layout = layout;
+        this.requestUpdate();
       }
     });
   }
 
   firstUpdated() {
-    const target = this.shadowRoot?.querySelector("ha-card") || this;
-    this._ro.observe(target);
+    this._ro.observe(this);
   }
 
   disconnectedCallback() {
