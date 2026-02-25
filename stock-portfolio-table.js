@@ -5,9 +5,10 @@ const html = LitElement.prototype.html;
 const css = LitElement.prototype.css;
 
 const STORAGE_KEY = "stock-portfolio-card-history";
-const LAYOUT_SM = 0;
-const LAYOUT_MD = 1;
-const LAYOUT_LG = 2;
+const LAYOUT_SM = 0;  // 12 (~375px)
+const LAYOUT_MD = 1;  // 24 (~750px)
+const LAYOUT_LG = 2;  // 36 (~1125px)
+const LAYOUT_XL = 3;  // 48 (~1500px)
 
 class StockPortfolioTable extends LitElement {
   static get properties() {
@@ -25,7 +26,7 @@ class StockPortfolioTable extends LitElement {
     this._layout = LAYOUT_SM;
     this._ro = new ResizeObserver((entries) => {
       const w = entries[0]?.contentRect?.width || 0;
-      const layout = w >= 700 ? LAYOUT_LG : w >= 450 ? LAYOUT_MD : LAYOUT_SM;
+      const layout = w >= 1125 ? LAYOUT_XL : w >= 750 ? LAYOUT_LG : w >= 375 ? LAYOUT_MD : LAYOUT_SM;
       if (layout !== this._layout) {
         this._layout = layout;
       }
