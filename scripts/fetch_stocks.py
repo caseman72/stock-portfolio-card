@@ -5,6 +5,7 @@ import json
 import re
 import sys
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 
 NYSE_URL = "https://www.nyse.com/api/nyseservice/v1/quotes?symbol="
 CS_URL = "https://www.schwab.wallst.com/Prospect/Research/mutualfunds/fees.asp?symbol="
@@ -61,10 +62,16 @@ def main():
         sys.exit(1)
 
     results = {}
-    for ticker in tickers:
-        data = fetch_ticker(ticker)
-        if data:
-            results[ticker] = data
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futures = {pool.submit(fetch_ticker, t): t for t in tickers}
+        for future in futures:
+            ticker = futures[future]
+            try:
+                data = future.result()
+                if data:
+                    results[ticker] = data
+            except Exception:
+                pass
 
     print(json.dumps({"data": results}))
 
