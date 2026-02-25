@@ -161,9 +161,6 @@ class StockPortfolioCard extends LitElement {
   render() {
     if (!this._config || !this._hass) return html``;
     if (!this._computed) this._recompute();
-    const allStocks = this._computed.flatMap((p) => p.stocks);
-    const maxVal = Math.max(...allStocks.map((s) => s.value), 1);
-
     const overallValue = this._computed.reduce((a, p) => a + p.totalValue, 0);
     const overallBasis = this._computed.reduce((a, p) => a + p.totalBasis, 0);
     const overallGain = overallValue - overallBasis;
@@ -223,14 +220,14 @@ class StockPortfolioCard extends LitElement {
                   </span>
                 </div>
                 <div class="chart">
-                  ${portfolio.stocks.map((stock) => {
-                    const basisWidth =
-                      (Math.min(stock.basis, stock.value) / maxVal) * 100;
-                    const gainWidth =
-                      stock.gain > 0 ? (stock.gain / maxVal) * 100 : 0;
-                    const lossWidth =
-                      stock.gain < 0 ? (-stock.gain / maxVal) * 100 : 0;
-                    const barWidth = (stock.value / maxVal) * 100;
+                  ${(() => {
+                    const maxVal = Math.max(...portfolio.stocks.map((s) => Math.max(s.value, s.basis)), 1);
+                    return portfolio.stocks.map((stock) => {
+                    const basisPct = (stock.basis / maxVal) * 100;
+                    const valuePct = (stock.value / maxVal) * 100;
+                    const basisWidth = stock.gain >= 0 ? basisPct : valuePct;
+                    const gainWidth = stock.gain > 0 ? valuePct - basisPct : 0;
+                    const lossWidth = stock.gain < 0 ? basisPct - valuePct : 0;
                     return html`
                       <div class="bar-row">
                         <div class="bar-label">
@@ -251,12 +248,12 @@ class StockPortfolioCard extends LitElement {
                               `
                             : html`
                                 <div
-                                  class="bar loss-bar"
-                                  style="width:${lossWidth}%;position:absolute;right:${100 - basisWidth}%"
+                                  class="bar basis"
+                                  style="width:${basisWidth}%"
                                 ></div>
                                 <div
-                                  class="bar basis"
-                                  style="width:${barWidth}%"
+                                  class="bar loss-bar"
+                                  style="width:${lossWidth}%"
                                 ></div>
                               `}
                         </div>
@@ -268,7 +265,7 @@ class StockPortfolioCard extends LitElement {
                         </div>
                       </div>
                     `;
-                  })}
+                  })})()}
                 </div>
               </div>
             `
