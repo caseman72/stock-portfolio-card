@@ -24,8 +24,8 @@ class StockPortfolioTable extends LitElement {
   constructor() {
     super();
     this._layout = LAYOUT_SM;
-    this._ro = new ResizeObserver((entries) => {
-      const w = entries[0]?.contentRect?.width || 0;
+    this._ro = new ResizeObserver(() => {
+      const w = this.offsetWidth || this.clientWidth || 0;
       if (w === 0) return;
       const layout = w >= 900 ? LAYOUT_XL : w >= 600 ? LAYOUT_LG : w >= 300 ? LAYOUT_MD : LAYOUT_SM;
       if (layout !== this._layout) {
