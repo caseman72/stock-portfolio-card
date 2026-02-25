@@ -185,15 +185,15 @@ class StockPortfolioTable extends LitElement {
   _renderHeader() {
     const L = this._layout;
     return html`
-      <tr>
-        <th class="left">Stock</th>
-        ${L >= LAYOUT_MD ? html`<th class="right">Price</th>` : ""}
-        ${L >= LAYOUT_MD ? html`<th class="right">Change</th>` : ""}
-        ${L >= LAYOUT_LG ? html`<th class="right">Qty</th>` : ""}
-        ${L >= LAYOUT_MD ? html`<th class="right">Basis</th>` : ""}
-        <th class="right">Gain/Loss</th>
-        ${L >= LAYOUT_LG ? html`<th class="right">Gain%</th>` : ""}
-        <th class="right">Value</th>
+      <tr class="col-header-row">
+        <td class="left col-header">Stock</td>
+        ${L >= LAYOUT_MD ? html`<td class="right col-header">Price</td>` : ""}
+        ${L >= LAYOUT_MD ? html`<td class="right col-header">Change</td>` : ""}
+        ${L >= LAYOUT_LG ? html`<td class="right col-header">Qty</td>` : ""}
+        ${L >= LAYOUT_MD ? html`<td class="right col-header">Basis</td>` : ""}
+        <td class="right col-header">Gain/Loss</td>
+        ${L >= LAYOUT_LG ? html`<td class="right col-header">Gain%</td>` : ""}
+        <td class="right col-header">Value</td>
       </tr>
     `;
   }
@@ -269,28 +269,24 @@ class StockPortfolioTable extends LitElement {
               `
             : ""}
 
-          ${this._computed.map(
-            (portfolio) => html`
-              <div class="section">
-                <table>
-                  <thead>
-                    <tr class="section-header">
-                      <td class="section-name" colspan="${cols - 1}">
-                        ${portfolio.name}
-                      </td>
-                      <td class="section-total right">
-                        $${this._fmt(portfolio.totalValue)}
-                      </td>
-                    </tr>
-                    ${this._renderHeader()}
-                  </thead>
-                  <tbody>
-                    ${portfolio.stocks.map((s) => this._renderRow(s))}
-                  </tbody>
-                </table>
-              </div>
-            `
-          )}
+          <table>
+            ${this._computed.map(
+              (portfolio) => html`
+                <tbody class="section">
+                  <tr class="section-header">
+                    <td class="section-name" colspan="${cols - 1}">
+                      ${portfolio.name}
+                    </td>
+                    <td class="section-total right">
+                      $${this._fmt(portfolio.totalValue)}
+                    </td>
+                  </tr>
+                  ${this._renderHeader()}
+                  ${portfolio.stocks.map((s) => this._renderRow(s))}
+                </tbody>
+              `
+            )}
+          </table>
         </div>
       </ha-card>
     `;
@@ -345,8 +341,8 @@ class StockPortfolioTable extends LitElement {
         color: #fff;
         border-color: var(--primary-color, #03a9f4);
       }
-      .section {
-        margin-top: 12px;
+      .section + .section .section-header td {
+        padding-top: 16px;
       }
       table {
         width: 100%;
@@ -367,7 +363,7 @@ class StockPortfolioTable extends LitElement {
         padding: 6px 0;
         white-space: nowrap;
       }
-      thead th {
+      .col-header {
         font-weight: normal;
         color: var(--secondary-text-color, #888);
         font-size: 0.85em;
