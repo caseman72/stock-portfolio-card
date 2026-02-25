@@ -24,8 +24,8 @@ class StockPortfolioTable extends LitElement {
   constructor() {
     super();
     this._layout = LAYOUT_SM;
-    this._ro = new ResizeObserver(() => {
-      const w = this.offsetWidth || this.clientWidth || 0;
+    this._ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect?.width || this.getBoundingClientRect().width || 0;
       if (w === 0) return;
       const layout = w >= 900 ? LAYOUT_XL : w >= 600 ? LAYOUT_LG : w >= 400 ? LAYOUT_MD : LAYOUT_SM;
       if (layout !== this._layout) {
@@ -54,8 +54,18 @@ class StockPortfolioTable extends LitElement {
 
   set hass(hass) {
     this._hass = hass;
+    this._checkWidth();
     this._storeDailySnapshot();
     this._recompute();
+  }
+
+  _checkWidth() {
+    const w = this.getBoundingClientRect().width || 0;
+    if (w === 0) return;
+    const layout = w >= 900 ? LAYOUT_XL : w >= 600 ? LAYOUT_LG : w >= 400 ? LAYOUT_MD : LAYOUT_SM;
+    if (layout !== this._layout) {
+      this._layout = layout;
+    }
   }
 
   _today() {
