@@ -37,11 +37,21 @@ class StockPortfolioTable extends LitElement {
 
   firstUpdated() {
     this._ro.observe(this);
+    this._onResize = () => {
+      setTimeout(() => {
+        this._checkWidth();
+        this.requestUpdate();
+      }, 100);
+    };
+    window.addEventListener("resize", this._onResize);
+    screen.orientation?.addEventListener("change", this._onResize);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._ro.disconnect();
+    window.removeEventListener("resize", this._onResize);
+    screen.orientation?.removeEventListener("change", this._onResize);
   }
 
   setConfig(config) {
@@ -235,6 +245,7 @@ class StockPortfolioTable extends LitElement {
 
   render() {
     if (!this._config || !this._hass) return html``;
+    this._checkWidth();
     if (!this._computed) this._recompute();
 
     const overallValue = this._computed.reduce((a, p) => a + p.totalValue, 0);
