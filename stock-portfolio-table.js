@@ -348,6 +348,10 @@ class StockPortfolioTable extends LitElement {
         width: 100%;
         border-collapse: collapse;
         font-size: 0.9em;
+        table-layout: fixed;
+      }
+      td:first-child {
+        width: 70px;
       }
       .section-header {
         border-bottom: 1px solid var(--divider-color, #ddd);
