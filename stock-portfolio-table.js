@@ -274,11 +274,9 @@ class StockPortfolioTable extends LitElement {
               (portfolio) => html`
                 <tbody class="section">
                   <tr class="section-header">
-                    <td class="section-name" colspan="${cols - 1}">
-                      ${portfolio.name}
-                    </td>
-                    <td class="section-total right">
-                      $${this._fmt(portfolio.totalValue)}
+                    <td colspan="${cols}">
+                      <span class="section-name">${portfolio.name}</span>
+                      <span class="section-total">$${this._fmt(portfolio.totalValue)}</span>
                     </td>
                   </tr>
                   ${this._renderHeader()}
@@ -348,23 +346,23 @@ class StockPortfolioTable extends LitElement {
         width: 100%;
         border-collapse: collapse;
         font-size: 0.9em;
-        table-layout: fixed;
-      }
-      td:first-child {
-        width: 70px;
       }
       .section-header {
         border-bottom: 1px solid var(--divider-color, #ddd);
       }
+      .section-header td {
+        padding: 6px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
       .section-name {
         font-weight: bold;
         font-size: 1.1em;
-        padding: 6px 0;
       }
       .section-total {
         font-weight: bold;
         font-size: 1.1em;
-        padding: 6px 0;
         white-space: nowrap;
       }
       .col-header {
