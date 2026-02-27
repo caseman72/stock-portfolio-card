@@ -268,7 +268,7 @@ class StockPortfolioTable extends LitElement {
                 ${this._fmtGain(overallGain)} (${this._fmtPct(overallGainPct)})
               </span>
               <span class="${overallChange >= 0 ? "gain" : "loss"}">
-                Today: ${this._fmtGain(overallChange)}
+                Day: ${this._fmtGain(overallChange)}
               </span>
             </div>
           </div>
