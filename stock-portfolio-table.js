@@ -128,6 +128,7 @@ class StockPortfolioTable extends LitElement {
             value,
             gain: 0,
             gainPct: 0,
+            priceChange: 0,
             change: 0,
           };
         }
@@ -145,6 +146,7 @@ class StockPortfolioTable extends LitElement {
           value,
           gain,
           gainPct,
+          priceChange: change,
           change: change * s.shares,
         };
       });
@@ -226,8 +228,8 @@ class StockPortfolioTable extends LitElement {
         <td class="left ticker">${s.ticker}</td>
         <td class="right">$${this._fmt(s.price)}</td>
         ${L >= LAYOUT_MD
-          ? html`<td class="right ${s.change >= 0 ? "gain" : "loss"}">
-              ${s.change >= 0 ? "+$" : "-$"}${this._fmt(Math.abs(s.change))}
+          ? html`<td class="right ${s.priceChange >= 0 ? "gain" : "loss"}">
+              ${s.priceChange >= 0 ? "+$" : "-$"}${this._fmt(Math.abs(s.priceChange))}
             </td>`
           : ""}
         ${L >= LAYOUT_LG ? html`<td class="right">${s.shares.toFixed(2)}</td>` : ""}
