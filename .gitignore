@@ -5,3 +5,8 @@ node_modules/
 *.log
 .env
 .env.local
+
+# Personal portfolio data — never commit
+investments.yml
+schwab-investments.yml
+schwab-investments.csv
