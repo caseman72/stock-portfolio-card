@@ -371,6 +371,7 @@ class StockPortfolioTable extends LitElement {
         width: 100%;
         border-collapse: collapse;
         font-size: 0.9em;
+        user-select: text;
       }
       .section-header {
         border-bottom: 1px solid var(--divider-color, #ddd);
@@ -419,11 +420,12 @@ class StockPortfolioTable extends LitElement {
   }
 }
 
-customElements.define("stock-portfolio-table", StockPortfolioTable);
-
-window.customCards = window.customCards || [];
-window.customCards.push({
-  type: "stock-portfolio-table",
-  name: "Stock Portfolio Table",
-  description: "Responsive table showing stock portfolio with adaptive columns",
-});
+if (!customElements.get("stock-portfolio-table")) {
+  customElements.define("stock-portfolio-table", StockPortfolioTable);
+  window.customCards = window.customCards || [];
+  window.customCards.push({
+    type: "stock-portfolio-table",
+    name: "Stock Portfolio Table",
+    description: "Responsive table showing stock portfolio with adaptive columns",
+  });
+}
