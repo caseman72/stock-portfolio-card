@@ -399,6 +399,9 @@ class StockPortfolioTable extends LitElement {
         border-bottom: 1px solid
           color-mix(in srgb, var(--divider-color, #ddd) 50%, transparent);
       }
+      tbody tr:not([class]):hover {
+        background-color: #333;
+      }
       .left {
         text-align: left;
       }
