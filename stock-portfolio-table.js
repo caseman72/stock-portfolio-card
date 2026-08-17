@@ -297,12 +297,26 @@ class StockPortfolioTable extends LitElement {
               (portfolio) => html`
                 <tbody class="section">
                   <tr class="section-header">
-                    <td class="section-name" colspan="${Math.ceil(cols / 2)}">
-                      ${portfolio.name}
-                    </td>
-                    <td class="section-total right" colspan="${Math.floor(cols / 2)}">
-                      $${this._fmt(portfolio.totalValue)}
-                    </td>
+                    ${this._computed.length === 1
+                      ? html`<td class="section-name" colspan="${cols}">
+                          ${portfolio.name}
+                        </td>`
+                      : html`<td colspan="${cols}">
+                          <div class="section-header-grid">
+                            <span class="section-name">${portfolio.name}</span>
+                            <span>
+                              <span class="section-stat ${portfolio.totalGain >= 0 ? "gain" : "loss"}">
+                                ${this._fmtGain(portfolio.totalGain)} (${this._fmtPct(portfolio.totalGainPct)})
+                              </span>
+                              <span class="section-stat ${portfolio.totalChange >= 0 ? "gain" : "loss"}">
+                                Day: ${this._fmtGain(portfolio.totalChange)}
+                              </span>
+                            </span>
+                            <span class="section-total right">
+                              $${this._fmt(portfolio.totalValue)}
+                            </span>
+                          </div>
+                        </td>`}
                   </tr>
                   ${this._renderHeader()}
                   ${portfolio.stocks.map((s) => this._renderRow(s))}
@@ -320,6 +334,7 @@ class StockPortfolioTable extends LitElement {
       :host {
         --table-gain: #4caf50;
         --table-loss: #f44336;
+        font-size: 1.1em;
       }
       .card-content {
         padding: 0 16px 16px;
@@ -386,6 +401,16 @@ class StockPortfolioTable extends LitElement {
         font-size: 1.1em;
         padding: 6px 0;
         white-space: nowrap;
+      }
+      .section-stat {
+        font-weight: normal;
+        font-size: 1.1em;
+        margin-right: 10px;
+      }
+      .section-header-grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: baseline;
       }
       .col-header {
         font-weight: normal;
