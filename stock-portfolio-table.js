@@ -404,7 +404,8 @@ class StockPortfolioTable extends LitElement {
       }
       .section-stat {
         font-weight: normal;
-        font-size: 1.1em;
+        /* table is 0.9em; compensate to an effective 0.95em matching .summary-detail */
+        font-size: calc(0.95em / 0.9);
         margin-right: 10px;
       }
       .section-header-grid {
