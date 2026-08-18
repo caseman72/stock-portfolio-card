@@ -302,9 +302,9 @@ class StockPortfolioTable extends LitElement {
                           ${portfolio.name}
                         </td>`
                       : html`<td colspan="${cols}">
-                          <div class="section-header-grid">
+                          <div class="section-header-grid ${this._layout < LAYOUT_LG ? "narrow" : ""}">
                             <span class="section-name">${portfolio.name}</span>
-                            <span>
+                            <span class="section-stats">
                               <span class="section-stat ${portfolio.totalGain >= 0 ? "gain" : "loss"}">
                                 ${this._fmtGain(portfolio.totalGain)} (${this._fmtPct(portfolio.totalGainPct)})
                               </span>
@@ -411,7 +411,27 @@ class StockPortfolioTable extends LitElement {
       .section-header-grid {
         display: grid;
         grid-template-columns: 1fr auto 1fr;
+        grid-template-areas: "name stats total";
         align-items: baseline;
+      }
+      .section-header-grid .section-name {
+        grid-area: name;
+      }
+      .section-header-grid .section-stats {
+        grid-area: stats;
+        white-space: nowrap;
+      }
+      .section-header-grid .section-total {
+        grid-area: total;
+      }
+      .section-header-grid.narrow {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "name total"
+          "stats stats";
+      }
+      .section-header-grid.narrow .section-stats {
+        justify-self: center;
       }
       .col-header {
         font-weight: normal;
