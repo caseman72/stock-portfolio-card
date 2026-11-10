@@ -73,14 +73,16 @@ class StockPortfolioCard extends LitElement {
       const stocks = portfolio.stocks.map((s) => {
         if (s.ticker === "CASH") {
           const value = s.shares;
+          const basis = s.basis || value;
+          const gain = value - basis;
           return {
             ticker: "CASH",
             shares: s.shares,
-            basis: value,
+            basis,
             price: 1,
             value,
-            gain: 0,
-            gainPct: 0,
+            gain,
+            gainPct: basis ? (gain / basis) * 100 : 0,
             change: 0,
           };
         }
